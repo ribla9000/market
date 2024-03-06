@@ -1,0 +1,4 @@
+POSTGRES_USER=deniza
+POSTGRES_PASSWORD=KbzoAjv1bMZlas0128
+POSTGRES_DB=telegram_market
+POSTGRES_HOST=localhost

@@ -1,0 +1,8 @@
+.idea
+*.pyc
+.env
+**/.idea
+**/.idea/*
+**/*.session
+.DS_Store
+**/venv

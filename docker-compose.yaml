@@ -1,0 +1,42 @@
+version: '3.10'
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: PostgresDockerfile
+    env_file:
+      - ./telegram-market/.env
+    ports:
+      - "5433:5432"
+
+
+  telegram_market:
+    build:
+      context: .
+      dockerfile: TelegramDockerfile
+    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "1m", "--", "python", "./main.py"]
+    env_file:
+      - ./telegram-market/.env
+    volumes:
+      - ./telegram-market/:/app
+    depends_on:
+      - postgres
+    restart: always
+    ports:
+      - "8001:8000"
+
+  django_web_market:
+    build:
+      context: .
+      dockerfile: DjangoDockerfile
+    command: sh -c "dockerize -wait tcp://postgres:5432 -timeout 1m -- python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - ./web-marketplace/.env
+    volumes:
+      - ./web-marketplace/:/app
+    depends_on:
+      - postgres
+    restart: always
+    ports:
+      - "8000:8000"
