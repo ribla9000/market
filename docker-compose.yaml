@@ -2,13 +2,13 @@ version: '3.10'
 
 services:
   postgres:
+    image: postgres:16
     build:
       context: .
-      dockerfile: PostgresDockerfile
     env_file:
-      - ./telegram-market/.env
+      - ./web-marketplace/.env
     ports:
-      - "5433:5432"
+      - "5431:5432"
 
 
   telegram_market:
