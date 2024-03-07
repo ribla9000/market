@@ -48,13 +48,16 @@ def get_values(values):
 
 
 async def download_image(path):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(API_BASE_URL + f'download/{path}') as resp:
-            if resp.status == 200:
-                data = await resp.read()
-                with open(STATIC_PICS + path, 'wb') as f:
-                    f.write(data)
+    async with aiohttp.ClientSession(conn_timeout=0.3) as session:
+        try:
+            async with session.get(API_BASE_URL + f'download/{path}') as resp:
+                if resp.status == 200:
+                    data = await resp.read()
+                    with open(STATIC_PICS + path, 'wb') as f:
+                        f.write(data)
 
-                return path
-            else:
-                return "unknown.jpg"
+                    return path
+                else:
+                    return "unknown.jpg"
+        except Exception as e:
+            return "unknown.jpg"

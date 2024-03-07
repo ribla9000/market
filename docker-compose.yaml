@@ -10,7 +10,6 @@ services:
     ports:
       - "5431:5432"
 
-
   telegram_market:
     build:
       context: .

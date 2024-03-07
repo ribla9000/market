@@ -24,8 +24,6 @@ async def main():
     await loop.create_task(database.connect())
     await loop.create_task(schedule_task_startup())
     await loop.create_task(dispatcher.start_polling(bot))
-    print("h")
-    print("i")
 
 
 if __name__ == "__main__":

@@ -69,9 +69,9 @@ class ProductsAdmin(admin.ModelAdmin):
     @classmethod
     def total_price(cls, obj):
         if obj.discount > 0:
-            return int(obj.price - (obj.price * (obj.discount / 100)))
+            return str(int(obj.price - (obj.price * (obj.discount / 100)))//100)
 
-        return int(obj.price / 100)
+        return str(int(obj.price / 100))
 
 
 class BroadcastForm(forms.ModelForm):

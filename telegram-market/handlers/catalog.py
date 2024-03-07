@@ -104,7 +104,7 @@ async def catalog_open(callback: CallbackQuery, page: int = 1):
         ind += 1
 
         if product['discount'] > 0:
-            total_price = int(product["price"] - (product["price"] * (product["discount"] / 100)))
+            total_price = int(product["price"] - (product["price"] * (product["discount"] / 100)))//100
             price_string = f"<b>{total_price}</b> ❗️⚠️❗️"
         else:
             total_price = int(product['price'] // 100)
@@ -122,10 +122,11 @@ async def catalog_open(callback: CallbackQuery, page: int = 1):
             product["picture_path"] = "unknown.jpg"
         elif product["picture_path"] is not None and product["telegram_has"] is False:
             product["picture_path"] = await download_image(product["picture_path"])
-            await ProductsRepository.update(id=product["id"], values={"telegram_has": True})
+            if product["picture_path"] != "unknown.jpg":
+                await ProductsRepository.update(id=product["id"], values={"telegram_has": True})
 
         file = FSInputFile(STATIC_PICS + product["picture_path"])
-        media_group.append( InputMediaPhoto(media=file, caption=product_info, parse_mode="html"))
+        media_group.append(InputMediaPhoto(media=file, caption=product_info, parse_mode="html"))
         button = InlineKeyboardButton(
             text=product["name"],
             callback_data=f"product_in_catalog_open,{product['id']},{subcategory_id},{_page}"
@@ -180,10 +181,11 @@ async def product_in_catalog_open(callback: CallbackQuery, amount: int = 1):
         product["picture_path"] = "unknown.jpg"
     elif product["picture_path"] is not None and product["telegram_has"] is False:
         product["picture_path"] = await download_image(product["picture_path"])
-        await ProductsRepository.update(id=product["id"], values={"telegram_has": True})
+        if product["picture_path"] != "unknown.jpg":
+            await ProductsRepository.update(id=product["id"], values={"telegram_has": True})
 
     if product['discount'] > 0:
-        total_price = int(product["price"] - (product["price"] * (product["discount"] / 100)))
+        total_price = int(product["price"] - (product["price"] * (product["discount"] / 100)))//100
         price_string = f"<b>{total_price}</b> ❗️⚠️❗️"
     else:
         total_price = int(product['price'] / 100)
