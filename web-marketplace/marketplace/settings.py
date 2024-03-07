@@ -11,7 +11,7 @@ POSTGRES_HOST = os.getenv("POSTGRES_HOST")
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c#^48^s@ajikt*de_xil#3d!34f#uox&$q_!&$%0a9=&*u!z(7'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["web", '127.0.0.1']
 MEDIA_ROOT = os.path.join(BASE_DIR, 'market/static/')
 
 INSTALLED_APPS = [

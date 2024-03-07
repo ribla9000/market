@@ -26,6 +26,7 @@ services:
       - "8001:8000"
 
   django_web_market:
+    container_name: web
     build:
       context: .
       dockerfile: DjangoDockerfile
